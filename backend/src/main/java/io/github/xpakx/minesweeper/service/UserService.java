@@ -17,7 +17,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Player player = playerRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("No user with id " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("No user with username " + username));
         return new User(player.getUsername(), player.getPassword(), player.getRoles());
     }
 }

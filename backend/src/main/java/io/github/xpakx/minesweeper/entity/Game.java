@@ -1,24 +1,30 @@
 package io.github.xpakx.minesweeper.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRole implements GrantedAuthority {
+public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String authority;
+
+    private Integer width;
+    private Integer height;
+    private boolean won;
+    private boolean lost;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "player_id")
+    private Player player;
 }

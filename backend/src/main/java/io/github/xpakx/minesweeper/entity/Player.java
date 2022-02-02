@@ -17,7 +17,7 @@ import java.util.Set;
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(unique = true)
     private String username;
     @JsonIgnore
