@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PositionRepository  extends JpaRepository<Player, Long> {
+public interface PositionRepository  extends JpaRepository<Position, Long> {
     List<Position> findByGameId(Long gameId);
 }
