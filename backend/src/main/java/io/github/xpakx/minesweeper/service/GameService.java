@@ -7,6 +7,7 @@ import io.github.xpakx.minesweeper.entity.dto.*;
 import io.github.xpakx.minesweeper.error.AlreadyRevealedException;
 import io.github.xpakx.minesweeper.repo.BombRepository;
 import io.github.xpakx.minesweeper.repo.GameRepository;
+import io.github.xpakx.minesweeper.repo.PlayerRepository;
 import io.github.xpakx.minesweeper.repo.PositionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class GameService {
     private final GameRepository gameRepository;
     private final BombRepository bombRepository;
     private final PositionRepository positionRepository;
+    private final PlayerRepository playerRepository;
     private static final Integer BOMB = 9;
     private static final Integer REVEALED_BOMB = 10;
 
@@ -37,8 +39,19 @@ public class GameService {
                 .findProjectedByPlayerId(playerId);
     }
 
+    @Transactional
     public Game newGame(Long playerId, NewGameRequest request) {
-        return null; //TODO Creating new game
+        Game game = new Game();
+        game.setHeight(request.getHeight());
+        game.setWidth(request.getWidth());
+        game.setLost(false);
+        game.setWon(false);
+        game.setPlayer(playerRepository.getById(playerId));
+        game.setPositions(new ArrayList<>());
+        game = gameRepository.save(game);
+        Integer bombs = (int)(Math.sqrt(game.getHeight()*game.getWidth()));
+        //TODO Shuffle positions and create bombs
+        return game;
     }
 
     @Transactional
