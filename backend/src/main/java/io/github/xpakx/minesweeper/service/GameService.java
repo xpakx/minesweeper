@@ -61,22 +61,14 @@ public class GameService {
                 .orElseThrow();
         List<Bomb> bombs = bombRepository
                 .findByGameId(gameId);
-        Optional<Position> testPos = game.getPositions().stream()
-                .filter((p) -> p.getX() == move.getX() && p.getY()== move.getY())
-                .findAny();
-        if(testPos.isPresent()) {
-            throw new AlreadyRevealedException("This position is already revealed!");
-        }
+        testIfPositionAlreadyRevealed(move, game);
         List<Position> newPositions = new ArrayList<>();
-        Optional<Bomb> testBomb = bombs.stream()
-                .filter((p) -> p.getX() == move.getX() && p.getY()== move.getY())
-                .findAny();
+        boolean bombDetonated = bombs.stream()
+                .anyMatch((p) -> p.getX() == move.getX() && p.getY() == move.getY());
         Position newPosition = moveToPos(move, game);
-        if(testBomb.isPresent()) {
+        if(bombDetonated) {
             newPosition.setNumber(REVEALED_BOMB);
-            bombs.stream()
-                    .filter((p) -> p.getX() != move.getX() || p.getY() != move.getY())
-                    .forEach((a) -> newPositions.add(bombToPos(a, game)));
+            newPositions.addAll(mapBombsToPositions(move, game, bombs));
         } else {
             newPosition.setNumber(getNumOfBombsAround(newPosition,bombs));
             newPositions.addAll(propagateMove(newPosition, bombs, game));
@@ -86,6 +78,22 @@ public class GameService {
         return newPositions.stream()
                 .map(PositionResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    private List<Position> mapBombsToPositions(MoveRequest move, Game game, List<Bomb> bombs) {
+        return bombs.stream()
+                .filter((p) -> p.getX() != move.getX() || p.getY() != move.getY())
+                .map((a) -> bombToPos(a, game))
+                .collect(Collectors.toList());
+    }
+
+    private void testIfPositionAlreadyRevealed(MoveRequest move, Game game) {
+        Optional<Position> testPos = game.getPositions().stream()
+                .filter((p) -> p.getX() == move.getX() && p.getY()== move.getY())
+                .findAny();
+        if(testPos.isPresent()) {
+            throw new AlreadyRevealedException("This position is already revealed!");
+        }
     }
 
     private List<Position> propagateMove(Position move, List<Bomb> bombs, Game game) {
