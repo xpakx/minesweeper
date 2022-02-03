@@ -37,6 +37,10 @@ public class GameService {
                 .findProjectedByPlayerId(playerId);
     }
 
+    public Game newGame(Long playerId, NewGameRequest request) {
+        return null; //TODO Creating new game
+    }
+
     @Transactional
     public List<PositionResponse> move(Long playerId, Long gameId, MoveRequest move) {
         Game game = gameRepository
@@ -72,7 +76,8 @@ public class GameService {
     }
 
     private List<Position> propagateMove(Position move, List<Bomb> bombs, Game game) {
-        return null;
+        //TODO Quick Fill?
+        return new ArrayList<>();
     }
 
     private Position moveToPos(MoveRequest move, Game game) {

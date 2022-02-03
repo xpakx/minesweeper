@@ -1,9 +1,7 @@
 package io.github.xpakx.minesweeper.controller;
 
-import io.github.xpakx.minesweeper.entity.dto.AuthenticationRequest;
-import io.github.xpakx.minesweeper.entity.dto.AuthenticationResponse;
-import io.github.xpakx.minesweeper.entity.dto.GameDto;
-import io.github.xpakx.minesweeper.entity.dto.GameInfoDto;
+import io.github.xpakx.minesweeper.entity.Game;
+import io.github.xpakx.minesweeper.entity.dto.*;
 import io.github.xpakx.minesweeper.service.GameService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,6 +28,24 @@ public class GameController {
         return new ResponseEntity<>(
                 service.getGamesForPlayer(playerId),
                 HttpStatus.OK
+        );
+    }
+
+    @PostMapping("/players/{playerId}/games")
+    public ResponseEntity<Game> newGame(@RequestBody NewGameRequest request, @PathVariable Long playerId) {
+        return new ResponseEntity<>(
+                service.newGame(playerId, request),
+                HttpStatus.CREATED
+        );
+    }
+
+    @PostMapping("/players/{playerId}/games/{gameId}/moves")
+    public ResponseEntity<List<PositionResponse>> newGame(@RequestBody MoveRequest request,
+                                                          @PathVariable Long playerId,
+                                                          @PathVariable Long gameId) {
+        return new ResponseEntity<>(
+                service.move(playerId, gameId, request),
+                HttpStatus.CREATED
         );
     }
 }
