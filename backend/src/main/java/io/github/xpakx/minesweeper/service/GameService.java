@@ -121,8 +121,54 @@ public class GameService {
     }
 
     private List<Position> propagateMove(Position move, List<Bomb> bombs, Game game) {
-        //TODO Quick Fill?
-        return new ArrayList<>();
+        List<Position> revealed = new ArrayList<>();
+        if(move.getNumber()==0) {
+            boolean[][] visited = new boolean[game.getWidth()][game.getHeight()];
+            for(int i=0; i<game.getWidth();i++) {
+                for(int j=0; j<game.getHeight();j++) {
+                    visited[i][j] = false;
+                }
+            }
+            List<Position> nextPositions = new ArrayList<>();
+            nextPositions.add(move);
+            visited[move.getX()][move.getY()] = true;
+            while(nextPositions.size()>0) {
+                List<Position> newNextPositions = new ArrayList<>();
+                for(Position p : nextPositions) {
+                    if(p.getNumber() == 0) {
+                        if (p.getX() + 1 < game.getWidth() && !visited[p.getX() + 1][p.getY()]) {
+                            newNextPositions.add(posForCoord(p.getX() + 1, p.getY(), game, bombs));
+                            visited[p.getX() + 1][p.getY()] = true;
+                        }
+                        if (p.getX() - 1 >= 0 && !visited[p.getX() - 1][p.getY()]) {
+                            newNextPositions.add(posForCoord(p.getX() - 1, p.getY(), game, bombs));
+                            visited[p.getX() - 1][p.getY()] = true;
+                        }
+                        if (p.getY() + 1 < game.getHeight() && !visited[p.getX()][p.getY() + 1]) {
+                            newNextPositions.add(posForCoord(p.getX(), p.getY() + 1, game, bombs));
+                            visited[p.getX()][p.getY() + 1] = true;
+                        }
+                        if (p.getY() - 1 >= 0 && !visited[p.getX()][p.getY() - 1]) {
+                            newNextPositions.add(posForCoord(p.getX(), p.getY() - 1, game, bombs));
+                            visited[p.getX()][p.getY() - 1] = true;
+                        }
+                    }
+                }
+                nextPositions = newNextPositions;
+                revealed.addAll(nextPositions);
+            }
+        }
+        positionRepository.saveAll(revealed);
+        return revealed;
+    }
+
+    private Position posForCoord(int x, int y, Game game, List<Bomb> bombs) {
+        Position pos = new Position();
+        pos.setGame(game);
+        pos.setX(x);
+        pos.setY(y);
+        pos.setNumber(getNumOfBombsAround(pos, bombs));
+        return pos;
     }
 
     private Position moveToPos(MoveRequest move, Game game) {
