@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,6 +42,12 @@ public class GameService {
 
     @Transactional
     public Game newGame(Long playerId, NewGameRequest request) {
+        Game game = gameRepository.save(createGameFromRequest(playerId, request));
+        bombRepository.saveAll(getRandomBombs(game));
+        return game;
+    }
+
+    private Game createGameFromRequest(Long playerId, NewGameRequest request) {
         Game game = new Game();
         game.setHeight(request.getHeight());
         game.setWidth(request.getWidth());
@@ -48,10 +55,23 @@ public class GameService {
         game.setWon(false);
         game.setPlayer(playerRepository.getById(playerId));
         game.setPositions(new ArrayList<>());
-        game = gameRepository.save(game);
-        Integer bombs = (int)(Math.sqrt(game.getHeight()*game.getWidth()));
-        //TODO Shuffle positions and create bombs
         return game;
+    }
+
+    private List<Bomb> getRandomBombs(Game game) {
+        int bombs = (int)(Math.sqrt(game.getHeight()*game.getWidth()));
+        List<Bomb> allPositions = new ArrayList<>();
+        for(int i=0; i<game.getHeight();i++) {
+            for(int j=0; j<game.getWidth();j++) {
+                Bomb bomb = new Bomb();
+                bomb.setGame(game);
+                bomb.setRevealed(false);
+                bomb.setX(j);
+                bomb.setY(i);
+            }
+        }
+        Collections.shuffle(allPositions);
+        return allPositions.subList(0, bombs);
     }
 
     @Transactional
@@ -63,12 +83,11 @@ public class GameService {
                 .findByGameId(gameId);
         testIfPositionAlreadyRevealed(move, game);
         List<Position> newPositions = new ArrayList<>();
-        boolean bombDetonated = bombs.stream()
-                .anyMatch((p) -> p.getX() == move.getX() && p.getY() == move.getY());
+        boolean bombDetonated = isBombAtPosition(move, bombs);
         Position newPosition = moveToPos(move, game);
         if(bombDetonated) {
             newPosition.setNumber(REVEALED_BOMB);
-            newPositions.addAll(mapBombsToPositions(move, game, bombs));
+            newPositions.addAll(mapBombsToPositions(move, bombs, game));
         } else {
             newPosition.setNumber(getNumOfBombsAround(newPosition,bombs));
             newPositions.addAll(propagateMove(newPosition, bombs, game));
@@ -80,7 +99,12 @@ public class GameService {
                 .collect(Collectors.toList());
     }
 
-    private List<Position> mapBombsToPositions(MoveRequest move, Game game, List<Bomb> bombs) {
+    private boolean isBombAtPosition(MoveRequest move, List<Bomb> bombs) {
+        return bombs.stream()
+                .anyMatch((p) -> p.getX() == move.getX() && p.getY() == move.getY());
+    }
+
+    private List<Position> mapBombsToPositions(MoveRequest move, List<Bomb> bombs, Game game) {
         return bombs.stream()
                 .filter((p) -> p.getX() != move.getX() || p.getY() != move.getY())
                 .map((a) -> bombToPos(a, game))
