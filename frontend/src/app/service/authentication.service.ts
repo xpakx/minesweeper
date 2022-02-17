@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Token } from '@angular/compiler/src/ml_parser/lexer';
+import { Token } from '../entity/token';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AuthenticationRequest } from './entity/authentication-request';
-import { RegistrationRequest } from './entity/registration-request';
+import { AuthenticationRequest } from '../entity/authentication-request';
+import { RegistrationRequest } from '../entity/registration-request';
 
 @Injectable({
   providedIn: 'root'
