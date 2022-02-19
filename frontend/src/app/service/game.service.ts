@@ -27,7 +27,7 @@ export class GameService {
     return this.http.post<Game>(`${this.apiServerUrl}/players/${id}/games`, request);
   }
 
-  public move(playerId: number, gameId: number, request: MoveRequest):  Observable<Position[]> {
-    return this.http.post<Position[]>(`${this.apiServerUrl}/players/${playerId}/games/${gameId}/moves`, request);
+  public move(gameId: number, request: MoveRequest):  Observable<Position[]> {
+    return this.http.post<Position[]>(`${this.apiServerUrl}/games/${gameId}/moves`, request);
   }
 }
