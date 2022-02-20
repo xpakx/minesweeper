@@ -37,4 +37,8 @@ export class PlayerComponent implements OnInit {
     });
   }
 
+  toGame(id: number) {
+    this.router.navigate(['/games/'+id]);
+  }
+
 }
