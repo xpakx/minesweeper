@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Game } from '../entity/game';
+import { GameInfo } from '../entity/game-info';
 import { GameRequest } from '../entity/game-request';
 import { MoveRequest } from '../entity/move-request';
 import { Position } from '../entity/position';
@@ -19,8 +20,8 @@ export class GameService {
     return this.http.get<Game>(`${this.apiServerUrl}/games/${id}`);
   }
 
-  public getGamesByPlayerId(id: number):  Observable<Game[]> {
-    return this.http.get<Game[]>(`${this.apiServerUrl}/players/${id}/games`);
+  public getGamesByPlayerId(id: number):  Observable<GameInfo[]> {
+    return this.http.get<GameInfo[]>(`${this.apiServerUrl}/players/${id}/games`);
   }
 
   public newGame(id: number, request: GameRequest):  Observable<Game> {
