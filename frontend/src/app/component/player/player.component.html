@@ -1,1 +1,14 @@
-<p>player works!</p>
+<div class="container">
+    <h2>Games</h2>
+    <ul>
+        <li *ngFor="let game of games">
+            <button class="link-btn" (click)="toGame(game.id)">
+                {{game.width}}x{{game.height}}
+            </button>
+        </li>
+    </ul>
+    
+    <div id="warning" *ngIf="invalid">
+        Error: {{message}}
+    </div>
+</div>
