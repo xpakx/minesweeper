@@ -49,7 +49,7 @@ export class GameComponent implements OnInit {
     let request: MoveRequest = {x: x, y: y};
     this.service.move(this.game.id, request).subscribe(
       (response: Position[]) => {
-        //TODO
+        this.redrawBoard(response);
     },
     (error: HttpErrorResponse) => {
       if(error.status === 401) {
@@ -67,5 +67,9 @@ export class GameComponent implements OnInit {
     }
 
     this.game.positions.forEach((a) => this.position[a.x][a.y] = a.number);
+  }
+
+  redrawBoard(positions: Position[]): void {
+    positions.forEach((a) => this.position[a.x][a.y] = a.number);
   }
 }
