@@ -16,6 +16,7 @@ export class GameComponent implements OnInit {
   public message: string = '';
 
   public game!: Game;
+  public position: number[][] = [];
 
   constructor(private service: GameService, private router: Router, private route: ActivatedRoute) { }
 
@@ -29,6 +30,7 @@ export class GameComponent implements OnInit {
     this.service.getGameById(id).subscribe(
       (response: Game) => {
         this.game = response;
+        this.createBoard();
     },
     (error: HttpErrorResponse) => {
       if(error.status === 401) {
@@ -56,5 +58,14 @@ export class GameComponent implements OnInit {
       this.message = error.error.message;
       this.invalid = true;
     });
+  }
+
+  createBoard(): void {
+    this.position = new Array<[number, number]>(this.game.height);
+    for(let i=0;i<this.game.height;i++) {
+      this.position[i] = new Array<number>(this.game.width);
+    }
+
+    this.game.positions.forEach((a) => this.position[a.x][a.y] = a.number);
   }
 }

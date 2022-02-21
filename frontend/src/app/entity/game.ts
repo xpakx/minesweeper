@@ -1,5 +1,5 @@
-import { Position } from "@angular/compiler";
 import { PlayerMin } from "./player-min";
+import { Position } from "./position";
 
 export interface Game {
     id: number;
