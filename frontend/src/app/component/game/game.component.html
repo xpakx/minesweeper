@@ -1,1 +1,6 @@
 <p>game works!</p>
+<div class="row" *ngFor="let row of positions">
+    <div class="field" *ngFor="let pos of row">
+        {{pos}}
+    </div>
+</div>

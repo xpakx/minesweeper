@@ -16,7 +16,7 @@ export class GameComponent implements OnInit {
   public message: string = '';
 
   public game!: Game;
-  public position: number[][] = [];
+  public positions: number[][] = [];
 
   constructor(private service: GameService, private router: Router, private route: ActivatedRoute) { }
 
@@ -61,15 +61,15 @@ export class GameComponent implements OnInit {
   }
 
   createBoard(): void {
-    this.position = new Array<[number, number]>(this.game.height);
+    this.positions = new Array<[number, number]>(this.game.height);
     for(let i=0;i<this.game.height;i++) {
-      this.position[i] = new Array<number>(this.game.width);
+      this.positions[i] = new Array<number>(this.game.width);
     }
 
-    this.game.positions.forEach((a) => this.position[a.x][a.y] = a.number);
+    this.game.positions.forEach((a) => this.positions[a.x][a.y] = a.number);
   }
 
   redrawBoard(positions: Position[]): void {
-    positions.forEach((a) => this.position[a.x][a.y] = a.number);
+    positions.forEach((a) => this.positions[a.x][a.y] = a.number);
   }
 }
