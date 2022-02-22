@@ -2,6 +2,7 @@ package io.github.xpakx.minesweeper.service;
 
 import io.github.xpakx.minesweeper.entity.Bomb;
 import io.github.xpakx.minesweeper.entity.Game;
+import io.github.xpakx.minesweeper.entity.Player;
 import io.github.xpakx.minesweeper.entity.dto.MoveRequest;
 import io.github.xpakx.minesweeper.entity.dto.PositionResponse;
 import io.github.xpakx.minesweeper.repo.BombRepository;
@@ -38,6 +39,7 @@ class GameServiceTest {
 
     private Game fiveXfourGame;
     private List<Bomb> oneBomb;
+    private Player user1;
 
     @BeforeEach
     void setUp() {
@@ -54,6 +56,8 @@ class GameServiceTest {
         newBomb.setY(1);
         oneBomb = new ArrayList<>();
         oneBomb.add(newBomb);
+        user1 = new Player();
+        user1.setId(1L);
     }
 
     @AfterEach
@@ -70,12 +74,14 @@ class GameServiceTest {
                 .willReturn(Optional.of(fiveXfourGame));
         given(bombRepository.findByGameId(any(Long.class)))
                 .willReturn(oneBomb);
+        given(playerRepository.findByUsername(any(String.class)))
+                .willReturn(Optional.of(user1));
         injectMocks();
         MoveRequest oneXOne = new MoveRequest();
         oneXOne.setX(1);
         oneXOne.setY(1);
 
-        List<PositionResponse> response = service.move(1L, 1L, oneXOne);
+        List<PositionResponse> response = service.move("user1", 1L, oneXOne);
 
         for(PositionResponse p : response) {
             System.out.println(p.getX()+"x"+p.getY()+":"+p.getNumber());
@@ -89,12 +95,14 @@ class GameServiceTest {
                 .willReturn(Optional.of(fiveXfourGame));
         given(bombRepository.findByGameId(any(Long.class)))
                 .willReturn(oneBomb);
+        given(playerRepository.findByUsername(any(String.class)))
+                .willReturn(Optional.of(user1));
         injectMocks();
         MoveRequest zeroXzero = new MoveRequest();
         zeroXzero.setX(0);
         zeroXzero.setY(0);
 
-        List<PositionResponse> response = service.move(1L, 1L, zeroXzero);
+        List<PositionResponse> response = service.move("user1", 1L, zeroXzero);
 
         for(PositionResponse p : response) {
             System.out.println(p.getX()+"x"+p.getY()+":"+p.getNumber());

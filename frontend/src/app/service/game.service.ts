@@ -20,12 +20,12 @@ export class GameService {
     return this.http.get<Game>(`${this.apiServerUrl}/games/${id}`);
   }
 
-  public getGamesByPlayerId(id: number):  Observable<GameInfo[]> {
-    return this.http.get<GameInfo[]>(`${this.apiServerUrl}/players/${id}/games`);
+  public getGamesByPlayerId(username: String):  Observable<GameInfo[]> {
+    return this.http.get<GameInfo[]>(`${this.apiServerUrl}/players/${username}/games`);
   }
 
-  public newGame(id: number, request: GameRequest):  Observable<Game> {
-    return this.http.post<Game>(`${this.apiServerUrl}/players/${id}/games`, request);
+  public newGame(username: String, request: GameRequest):  Observable<Game> {
+    return this.http.post<Game>(`${this.apiServerUrl}/players/${username}/games`, request);
   }
 
   public move(gameId: number, request: MoveRequest):  Observable<Position[]> {

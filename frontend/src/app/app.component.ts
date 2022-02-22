@@ -17,16 +17,18 @@ export class AppComponent {
 
   newGame(width: number, height: number) {
     let request: GameRequest = {width: width, height: height};
-    let playerId: number = Number(localStorage.getItem("user_id"));
-    this.service.newGame(playerId, request).subscribe(
-      (response: Game) => {
-        this.router.navigate(['/games/'+response.id]);
-    },
-    (error: HttpErrorResponse) => {
-      if(error.status === 401) {
-        localStorage.removeItem("token");
-      }
-      //TODO
-    });
+    let username: String | null = localStorage.getItem("user_id");
+    if(username) {
+      this.service.newGame(username, request).subscribe(
+        (response: Game) => {
+          this.router.navigate(['/games/'+response.id]);
+      },
+      (error: HttpErrorResponse) => {
+        if(error.status === 401) {
+          localStorage.removeItem("token");
+        }
+        //TODO
+      });
+    }
   }
 }

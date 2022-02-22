@@ -23,28 +23,28 @@ public class GameController {
         );
     }
 
-    @GetMapping("/players/{playerId}/games")
-    public ResponseEntity<List<GameInfoDto>> getGamesByPlayerId(@PathVariable Long playerId) {
+    @GetMapping("/players/{username}/games")
+    public ResponseEntity<List<GameInfoDto>> getGamesByPlayerId(@PathVariable String username) {
         return new ResponseEntity<>(
-                service.getGamesForPlayer(playerId),
+                service.getGamesForPlayer(username),
                 HttpStatus.OK
         );
     }
 
-    @PostMapping("/players/{playerId}/games")
-    public ResponseEntity<Game> newGame(@RequestBody NewGameRequest request, @PathVariable Long playerId) {
+    @PostMapping("/players/{username}/games")
+    public ResponseEntity<Game> newGame(@RequestBody NewGameRequest request, @PathVariable String username) {
         return new ResponseEntity<>(
-                service.newGame(playerId, request),
+                service.newGame(username, request),
                 HttpStatus.CREATED
         );
     }
 
-    @PostMapping("/games/{gameId}/moves")
+    @PostMapping("/players/{username}/games/{gameId}/moves")
     public ResponseEntity<List<PositionResponse>> move(@RequestBody MoveRequest request,
-                                                          @PathVariable Long playerId,
+                                                       @PathVariable String username,
                                                           @PathVariable Long gameId) {
         return new ResponseEntity<>(
-                service.move(playerId, gameId, request),
+                service.move(username, gameId, request),
                 HttpStatus.CREATED
         );
     }

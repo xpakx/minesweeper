@@ -10,6 +10,7 @@ import io.github.xpakx.minesweeper.repo.GameRepository;
 import io.github.xpakx.minesweeper.repo.PlayerRepository;
 import io.github.xpakx.minesweeper.repo.PositionRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,14 +36,21 @@ public class GameService {
                 .orElseThrow();
     }
 
-    public List<GameInfoDto> getGamesForPlayer(Long playerId) {
+    public List<GameInfoDto> getGamesForPlayer(String username) {
         return gameRepository
-                .findProjectedByPlayerId(playerId);
+                .findProjectedByPlayerId(getIdByUsername(username));
+    }
+
+    private Long getIdByUsername(String username) {
+        return playerRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Not such user"))
+                .getId();
     }
 
     @Transactional
-    public Game newGame(Long playerId, NewGameRequest request) {
-        Game game = gameRepository.save(createGameFromRequest(playerId, request));
+    public Game newGame(String username, NewGameRequest request) {
+        Game game = gameRepository.save(createGameFromRequest(getIdByUsername(username), request));
         bombRepository.saveAll(getRandomBombs(game));
         return game;
     }
@@ -75,9 +83,9 @@ public class GameService {
     }
 
     @Transactional
-    public List<PositionResponse> move(Long playerId, Long gameId, MoveRequest move) {
+    public List<PositionResponse> move(String username, Long gameId, MoveRequest move) {
         Game game = gameRepository
-                .findByIdAndPlayerId(gameId, playerId)
+                .findByIdAndPlayerId(gameId, getIdByUsername(username))
                 .orElseThrow();
         List<Bomb> bombs = bombRepository
                 .findByGameId(gameId);

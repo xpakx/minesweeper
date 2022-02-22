@@ -23,8 +23,8 @@ export class PlayerComponent implements OnInit {
     });  
   }
 
-  loadPlayer(id: number): void {
-    this.service.getGamesByPlayerId(id).subscribe(
+  loadPlayer(username: String): void {
+    this.service.getGamesByPlayerId(username).subscribe(
       (response: GameInfo[]) => {
         this.games = response;
     },
