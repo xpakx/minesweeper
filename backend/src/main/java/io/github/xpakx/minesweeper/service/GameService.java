@@ -76,6 +76,7 @@ public class GameService {
                 bomb.setRevealed(false);
                 bomb.setX(j);
                 bomb.setY(i);
+                allPositions.add(bomb);
             }
         }
         Collections.shuffle(allPositions);
