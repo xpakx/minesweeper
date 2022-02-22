@@ -39,8 +39,8 @@ export class LoginComponent implements OnInit {
       }).subscribe(
         (response: Token) => {
           localStorage.setItem("token", response.token);
-          localStorage.setItem("user_id", response.id);
-          this.router.navigate(["load"]);
+          localStorage.setItem("user_id", response.username);
+          this.router.navigate([""]);
         },
         (error: HttpErrorResponse) => {
           if(error.status === 401) {
