@@ -41,8 +41,8 @@ export class GameComponent implements OnInit {
     });
   }
 
-  toPlayer(id: number): void {
-    this.router.navigate(['/players/'+id]);
+  toPlayer(username: String): void {
+    this.router.navigate(['/players/'+username]);
   }
 
   move(x: number, y: number): void {

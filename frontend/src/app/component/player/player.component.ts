@@ -19,7 +19,7 @@ export class PlayerComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(routeParams => {
-      this.loadPlayer(routeParams.id);
+      this.loadPlayer(routeParams.username);
     });  
   }
 
