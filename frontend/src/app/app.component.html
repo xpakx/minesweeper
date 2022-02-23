@@ -1,5 +1,12 @@
-<button class="btn" (click)="newGame(9, 9)">
-    New Game
-</button>
+<div class="header">
+
+    <button class="btn" (click)="newGame(9, 9)" *ngIf="isLogged">
+        New Game
+    </button>
+    <button class="btn" (click)="toLogin()" *ngIf="!isLogged">
+        Sign in
+    </button>
+
+</div>
 
 <router-outlet></router-outlet>

@@ -15,6 +15,14 @@ export class AppComponent {
   
   constructor(private service: GameService, private router: Router) { }
 
+  get username(): String | null {
+    return localStorage.getItem("user_id");
+  }
+
+  get isLogged(): boolean {
+    return localStorage.getItem("user_id") ? true : false;
+  }
+
   newGame(width: number, height: number) {
     let request: GameRequest = {width: width, height: height};
     let username: String | null = localStorage.getItem("user_id");
@@ -30,5 +38,9 @@ export class AppComponent {
         //TODO
       });
     }
+  }
+
+  toLogin() {
+    this.router.navigate(["/login"]);
   }
 }
