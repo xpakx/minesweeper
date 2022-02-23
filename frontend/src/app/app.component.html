@@ -1,6 +1,7 @@
 <div class="header">
 
     <button class="btn" (click)="newGame(9, 9)" *ngIf="isLogged">
+        <span class="btn-icon">+</span>
         New Game
     </button>
     <button class="btn" (click)="toLogin()" *ngIf="!isLogged">
