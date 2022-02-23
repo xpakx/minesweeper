@@ -47,23 +47,29 @@ export class GameComponent implements OnInit {
 
   move(x: number, y: number): void {
     let request: MoveRequest = {x: x, y: y};
-    this.service.move(this.game.id, request).subscribe(
-      (response: Position[]) => {
-        this.redrawBoard(response);
-    },
-    (error: HttpErrorResponse) => {
-      if(error.status === 401) {
-        localStorage.removeItem("token");
-      }
-      this.message = error.error.message;
-      this.invalid = true;
-    });
+    let username: String | null = localStorage.getItem("user_id");
+    if(username) {
+      this.service.move(username, this.game.id, request).subscribe(
+        (response: Position[]) => {
+          this.redrawBoard(response);
+      },
+      (error: HttpErrorResponse) => {
+        if(error.status === 401) {
+          localStorage.removeItem("token");
+        }
+        this.message = error.error.message;
+        this.invalid = true;
+      });
+    }
   }
 
   createBoard(): void {
     this.positions = new Array<[number, number]>(this.game.height);
     for(let i=0;i<this.game.height;i++) {
       this.positions[i] = new Array<number>(this.game.width);
+      for(let j=0;j<this.game.width;j++) {
+        this.positions[i][j] = -1;
+      }
     }
 
     this.game.positions.forEach((a) => this.positions[a.x][a.y] = a.number);

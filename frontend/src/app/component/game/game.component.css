@@ -1,0 +1,7 @@
+.field {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-color: beige;
+    border: 1px solid brown;
+}
