@@ -2,6 +2,42 @@
     display: inline-block;
     width: 25px;
     height: 25px;
+    background-color: wheat;
+    border: none;
+}
+
+.blue {
+    color: blue;
+}
+.green {
+    color: green;
+}
+.red {
+    color: red;
+}
+.dark-blue {
+    color: darkblue;
+}
+.brown {
+    color: brown;
+}
+.sea-blue {
+    color: seagreen;
+}
+.black {
+    color: black;
+}
+.grey {
+    color: gray;
+}
+.bomb {
+    color: black;
+}
+.boom {
+    color: black;
+    background-color: darkred;
+}
+.unclicked {
     background-color: beige;
     border: 1px solid brown;
 }

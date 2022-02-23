@@ -78,4 +78,41 @@ export class GameComponent implements OnInit {
   redrawBoard(positions: Position[]): void {
     positions.forEach((a) => this.positions[a.x][a.y] = a.number);
   }
-}
+
+  getColor(num: number): String {
+    if(num == 1) {
+      return "blue";
+    }
+    if(num == 2) {
+      return "green";
+    }
+    if(num == 3) {
+      return "red";
+    }
+    if(num == 4) {
+      return "dark-blue";
+    }
+    if(num == 5) {
+      return "brown";
+    }
+    if(num == 6) {
+      return "sea-blue";
+    }
+    if(num == 7) {
+      return "black";
+    }
+    if(num == 8) {
+      return "grey";
+    }
+    if(num == 9) {
+      return "bomb";
+    }
+    if(num == 10) {
+      return "boom";
+    }
+    if(num == -1) {
+      return "unclicked";
+    }
+    return "";
+  }
+ }
