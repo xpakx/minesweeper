@@ -8,27 +8,35 @@
 
 .blue {
     color: blue;
+    font-weight: bold;
 }
 .green {
     color: green;
+    font-weight: bold;
 }
 .red {
     color: red;
+    font-weight: bold;
 }
 .dark-blue {
     color: darkblue;
+    font-weight: bold;
 }
 .brown {
     color: brown;
+    font-weight: bold;
 }
 .sea-blue {
     color: seagreen;
+    font-weight: bold;
 }
 .black {
     color: black;
+    font-weight: bold;
 }
 .grey {
     color: gray;
+    font-weight: bold;
 }
 .bomb {
     color: black;
