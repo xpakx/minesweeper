@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedEntityGraph(name = "game-with-pos",
-        attributeNodes = {@NamedAttributeNode("positions")}
+        attributeNodes = {@NamedAttributeNode("positions"), @NamedAttributeNode("player")}
 )
 public class Game {
     @Id

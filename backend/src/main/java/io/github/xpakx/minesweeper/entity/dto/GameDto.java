@@ -1,7 +1,5 @@
 package io.github.xpakx.minesweeper.entity.dto;
 
-import io.github.xpakx.minesweeper.entity.Bomb;
-
 import java.util.List;
 
 public interface GameDto {
