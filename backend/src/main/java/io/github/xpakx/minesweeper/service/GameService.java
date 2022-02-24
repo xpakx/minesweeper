@@ -163,20 +163,20 @@ public class GameService {
                         }
                         if (p.getX() + 1 < game.getWidth() && p.getY() + 1 < game.getHeight()  && !visited[p.getX() + 1][p.getY() + 1]) {
                             newNextPositions.add(posForCoord(p.getX() + 1, p.getY(), game, bombs));
-                            visited[p.getX() + 1][p.getY()] = true;
+                            visited[p.getX() + 1][p.getY() + 1] = true;
                         }
                         if (p.getX() + 1 < game.getWidth() && p.getY() - 1 >=0  && !visited[p.getX() + 1][p.getY() - 1]) {
                             newNextPositions.add(posForCoord(p.getX() + 1, p.getY(), game, bombs));
-                            visited[p.getX() + 1][p.getY()] = true;
+                            visited[p.getX() + 1][p.getY() - 1] = true;
                         }
 
                         if (p.getX() - 1 > 0 && p.getY() + 1 < game.getHeight()  && !visited[p.getX() - 1][p.getY() + 1]) {
                             newNextPositions.add(posForCoord(p.getX() + 1, p.getY(), game, bombs));
-                            visited[p.getX() + 1][p.getY()] = true;
+                            visited[p.getX() - 1][p.getY() + 1] = true;
                         }
                         if (p.getX() - 1 > 0 && p.getY() - 1 >=0  && !visited[p.getX() - 1][p.getY() - 1]) {
                             newNextPositions.add(posForCoord(p.getX() + 1, p.getY(), game, bombs));
-                            visited[p.getX() + 1][p.getY()] = true;
+                            visited[p.getX() - 1][p.getY() - 1] = true;
                         }
                     }
                 }
