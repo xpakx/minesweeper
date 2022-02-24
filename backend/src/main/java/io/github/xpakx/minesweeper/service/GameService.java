@@ -5,6 +5,7 @@ import io.github.xpakx.minesweeper.entity.Game;
 import io.github.xpakx.minesweeper.entity.Position;
 import io.github.xpakx.minesweeper.entity.dto.*;
 import io.github.xpakx.minesweeper.error.AlreadyRevealedException;
+import io.github.xpakx.minesweeper.error.GameEndedException;
 import io.github.xpakx.minesweeper.repo.BombRepository;
 import io.github.xpakx.minesweeper.repo.GameRepository;
 import io.github.xpakx.minesweeper.repo.PlayerRepository;
@@ -88,6 +89,12 @@ public class GameService {
         Game game = gameRepository
                 .findByIdAndPlayerId(gameId, getIdByUsername(username))
                 .orElseThrow();
+        if(game.isLost()) {
+            throw new GameEndedException("Game already lost!");
+        }
+        if(game.isWon()) {
+            throw new GameEndedException("Game already won!");
+        }
         List<Bomb> bombs = bombRepository
                 .findByGameId(gameId);
         testIfPositionAlreadyRevealed(move, game);
