@@ -15,10 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -109,7 +106,8 @@ public class GameService {
         } else {
             newPosition.setNumber(getNumOfBombsAround(newPosition,bombs));
             newPositions.addAll(propagateMove(newPosition, bombs, game));
-            if(newPositions.size() + game.getPositions().size() >= game.getWidth()*game.getHeight()-bombs.size()) {
+            int uniquePosition = newPositions.size() + game.getPositions().size() + 1;
+            if(uniquePosition >=  game.getWidth() *game.getHeight()-bombs.size()) {
                 game.setWon(true);
                 gameRepository.save(game);
             }
@@ -151,6 +149,7 @@ public class GameService {
                     visited[i][j] = false;
                 }
             }
+            game.getPositions().forEach((a) -> visited[a.getX()][a.getY()] = true);
             List<Position> nextPositions = new ArrayList<>();
             nextPositions.add(move);
             visited[move.getX()][move.getY()] = true;
