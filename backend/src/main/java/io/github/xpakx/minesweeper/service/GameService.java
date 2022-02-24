@@ -97,9 +97,15 @@ public class GameService {
         if(bombDetonated) {
             newPosition.setNumber(REVEALED_BOMB);
             newPositions.addAll(mapBombsToPositions(move, bombs, game));
+            game.setLost(true);
+            gameRepository.save(game);
         } else {
             newPosition.setNumber(getNumOfBombsAround(newPosition,bombs));
             newPositions.addAll(propagateMove(newPosition, bombs, game));
+            if(newPositions.size() + game.getPositions().size() >= game.getWidth()*game.getHeight()-bombs.size()) {
+                game.setWon(true);
+                gameRepository.save(game);
+            }
         }
         newPositions.add(newPosition);
         positionRepository.saveAll(newPositions);
