@@ -5,6 +5,8 @@
             <button class="link-btn" (click)="toGame(game.id)">
                 {{game.width}}x{{game.height}}
             </button>
+            <span *ngIf="game.won">won</span>
+            <span *ngIf="game.lost">lost</span>
         </li>
     </ul>
     
