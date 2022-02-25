@@ -68,7 +68,7 @@ public class GameController {
         );
     }
 
-    @PostMapping("/players/{username}/games/{gameId}/flags/{flagId}")
+    @DeleteMapping("/players/{username}/games/{gameId}/flags/{flagId}")
     public ResponseEntity<?> deleteFlag(@PathVariable String username,
                                         @PathVariable Long gameId,
                                         @PathVariable Long flagId) {
