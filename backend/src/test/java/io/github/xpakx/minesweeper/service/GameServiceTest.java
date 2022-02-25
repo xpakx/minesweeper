@@ -5,10 +5,7 @@ import io.github.xpakx.minesweeper.entity.Game;
 import io.github.xpakx.minesweeper.entity.Player;
 import io.github.xpakx.minesweeper.entity.dto.MoveRequest;
 import io.github.xpakx.minesweeper.entity.dto.PositionResponse;
-import io.github.xpakx.minesweeper.repo.BombRepository;
-import io.github.xpakx.minesweeper.repo.GameRepository;
-import io.github.xpakx.minesweeper.repo.PlayerRepository;
-import io.github.xpakx.minesweeper.repo.PositionRepository;
+import io.github.xpakx.minesweeper.repo.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +29,8 @@ class GameServiceTest {
     private PositionRepository positionRepository;
     @Mock
     private BombRepository bombRepository;
+    @Mock
+    private FlagRepository flagRepository;
     @Mock
     private PlayerRepository playerRepository;
 
@@ -65,7 +64,7 @@ class GameServiceTest {
     }
 
     private void injectMocks() {
-        service = new GameService(gameRepository, bombRepository, positionRepository, playerRepository);
+        service = new GameService(gameRepository, bombRepository, flagRepository, positionRepository, playerRepository);
     }
 
     @Test

@@ -6,10 +6,7 @@ import io.github.xpakx.minesweeper.entity.Position;
 import io.github.xpakx.minesweeper.entity.dto.*;
 import io.github.xpakx.minesweeper.error.AlreadyRevealedException;
 import io.github.xpakx.minesweeper.error.GameEndedException;
-import io.github.xpakx.minesweeper.repo.BombRepository;
-import io.github.xpakx.minesweeper.repo.GameRepository;
-import io.github.xpakx.minesweeper.repo.PlayerRepository;
-import io.github.xpakx.minesweeper.repo.PositionRepository;
+import io.github.xpakx.minesweeper.repo.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -23,6 +20,7 @@ import java.util.stream.Collectors;
 public class GameService {
     private final GameRepository gameRepository;
     private final BombRepository bombRepository;
+    private final FlagRepository flagRepository;
     private final PositionRepository positionRepository;
     private final PlayerRepository playerRepository;
     private static final Integer BOMB = 9;
@@ -233,5 +231,33 @@ public class GameService {
                     .filter((b) -> b.getY()>=pos.getY()-1 && b.getY()<=pos.getY()+1)
                     .count()
         );
+    }
+
+    public List<Flag> getFlags(Long gameId) {
+        return flagRepository.findByGameId(gameId);
+    }
+
+    public Flag addFlag(String username, Long gameId, Integer x, Integer y) {
+        Game game = gameRepository
+                .findByIdAndPlayerId(gameId, getIdByUsername(username))
+                .orElseThrow();
+        if(game.isLost()) {
+            throw new GameEndedException("Game already lost!");
+        }
+        if(game.isWon()) {
+            throw new GameEndedException("Game already won!");
+        }
+        if(game.getPositions().stream().anyMatch((a) -> Objects.equals(a.getX(), x) && Objects.equals(a.getY(), y))) {
+            throw new AlreadyRevealedException("This position is already revealed!");
+        }
+        Flag flag = new Flag();
+        flag.setGame(game);
+        flag.setX(x);
+        flag.setY(y);
+        return flagRepository.save(flag);
+    }
+
+    public void deleteFlag(String username, Long flagId) {
+        flagRepository.deleteById(flagId);
     }
 }
