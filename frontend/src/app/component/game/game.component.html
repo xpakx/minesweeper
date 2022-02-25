@@ -1,6 +1,9 @@
 <div class="row" *ngFor="let row of positions; let i = index">
-    <button class="field" *ngFor="let pos of row; let j = index" (click)="move(i,j)" [ngClass]="getColor(pos)">
+    <button class="field" *ngFor="let pos of row; let j = index" (click)="move(i,j)" (auxclick) = "flag($event, i,j)" [ngClass]="getColor(pos)">
         <ng-container *ngIf="pos<1">
+            <ng-container *ngIf="isFlagged(i,j)">
+                F
+            </ng-container>
             &nbsp;
         </ng-container>
         <ng-container *ngIf="pos>0 && pos<9">

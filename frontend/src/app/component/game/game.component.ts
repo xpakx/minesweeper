@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Flag } from 'src/app/entity/flag';
 import { Game } from 'src/app/entity/game';
 import { MoveRequest } from 'src/app/entity/move-request';
 import { Position } from 'src/app/entity/position';
@@ -17,6 +18,7 @@ export class GameComponent implements OnInit {
 
   public game!: Game;
   public positions: number[][] = [];
+  public flags: Flag[] = [];
 
   constructor(private service: GameService, private router: Router, private route: ActivatedRoute) { }
 
@@ -30,6 +32,9 @@ export class GameComponent implements OnInit {
     this.service.getGameById(id).subscribe(
       (response: Game) => {
         this.game = response;
+        if(this.game.player.username) {
+          this.loadFlags(id);
+        }
         this.createBoard();
     },
     (error: HttpErrorResponse) => {
@@ -46,6 +51,9 @@ export class GameComponent implements OnInit {
   }
 
   move(x: number, y: number): void {
+    if(this.isFlagged(x,y)) {
+      return;
+    }
     let request: MoveRequest = {x: x, y: y};
     let username: String | null = localStorage.getItem("user_id");
     if(username) {
@@ -114,5 +122,63 @@ export class GameComponent implements OnInit {
       return "unclicked";
     }
     return "";
+  }
+
+  loadFlags(id: number): void {
+    let username: String | null = localStorage.getItem("user_id");
+    if(username) {
+      this.service.getFlagsByGameId(username, id).subscribe(
+        (response: Flag[]) => {
+          this.flags = response;
+      },
+      (error: HttpErrorResponse) => {
+        if(error.status === 401) {
+          localStorage.removeItem("token");
+        }
+        this.message = error.error.message;
+        this.invalid = true;
+      });
+    }
+  }
+
+  isFlagged(x: number, y: number): boolean {
+    return this.flags.filter((a) => a.x == x && a.y == y).length > 0
+  }
+
+  flag(event: MouseEvent, x: number, y: number) {
+    event.preventDefault();
+    let username: String | null = localStorage.getItem("user_id");
+    if(!username) {
+      return;
+    }
+    let flags = this.flags.filter((a) => a.x == x && a.y == y);
+    if(flags.length == 0) {
+      let request: MoveRequest = {x: x, y: y};
+      this.service.addFlag(username, this.game.id, request).subscribe(
+        (response: Flag) => {
+          this.flags.push(response);
+      },
+      (error: HttpErrorResponse) => {
+        if(error.status === 401) {
+          localStorage.removeItem("token");
+        }
+        this.message = error.error.message;
+        this.invalid = true;
+      });
+      return;
+    }
+    let flag = flags[0];
+
+    this.service.deleteFlag(username, this.game.id, flag.id).subscribe(
+      (response: any, id: number = flag.id) => {
+        this.flags = this.flags.filter((a) => a.id != id);
+    },
+    (error: HttpErrorResponse) => {
+      if(error.status === 401) {
+        localStorage.removeItem("token");
+      }
+      this.message = error.error.message;
+      this.invalid = true;
+    });
   }
  }
