@@ -48,4 +48,32 @@ public class GameController {
                 HttpStatus.CREATED
         );
     }
+
+    @PostMapping("/players/{username}/games/{gameId}/flags")
+    public ResponseEntity<Flag> addFlag(@RequestBody MoveRequest request,
+                                                       @PathVariable String username,
+                                                       @PathVariable Long gameId) {
+        return new ResponseEntity<>(
+                service.addFlag(username, gameId, request),
+                HttpStatus.CREATED
+        );
+    }
+
+    @GetMapping("/players/{username}/games/{gameId}/flags")
+    public ResponseEntity<List<Flag>> getFlagsByGameId(@PathVariable String username,
+                                                       @PathVariable Long gameId) {
+        return new ResponseEntity<>(
+                service.getFlags(username, gameId),
+                HttpStatus.OK
+        );
+    }
+
+    @PostMapping("/players/{username}/flags/{flagId}")
+    public ResponseEntity<?> deleteFlag(@PathVariable String username,
+                                        @PathVariable Long gameId,
+                                        @PathVariable Long flagId) {
+
+        service.deleteFlag(username, gameId, flagId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

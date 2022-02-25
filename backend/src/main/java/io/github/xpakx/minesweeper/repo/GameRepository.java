@@ -16,4 +16,5 @@ public interface GameRepository  extends JpaRepository<Game, Long> {
     List<GameInfoDto> findProjectedByPlayerId(Long playerId);
     @EntityGraph("game-with-pos") Optional<GameDto> findProjectedById(Long id);
     @EntityGraph("game-with-pos") Optional<Game> findByIdAndPlayerId(Long id, Long playerId);
+    boolean existsByIdAndPlayerId(Long id, Long playerId);
 }

@@ -8,6 +8,7 @@ import io.github.xpakx.minesweeper.error.AlreadyRevealedException;
 import io.github.xpakx.minesweeper.error.GameEndedException;
 import io.github.xpakx.minesweeper.repo.*;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -233,31 +234,40 @@ public class GameService {
         );
     }
 
-    public List<Flag> getFlags(Long gameId) {
+    public List<Flag> getFlags(String username, Long gameId) {
+        testGameOwnership(username, gameId);
         return flagRepository.findByGameId(gameId);
     }
 
-    public Flag addFlag(String username, Long gameId, Integer x, Integer y) {
+    public Flag addFlag(String username, Long gameId, MoveRequest request) {
         Game game = gameRepository
                 .findByIdAndPlayerId(gameId, getIdByUsername(username))
-                .orElseThrow();
+                .orElseThrow(() -> new AccessDeniedException("You can't view flags for this game!"));
         if(game.isLost()) {
             throw new GameEndedException("Game already lost!");
         }
         if(game.isWon()) {
             throw new GameEndedException("Game already won!");
         }
-        if(game.getPositions().stream().anyMatch((a) -> Objects.equals(a.getX(), x) && Objects.equals(a.getY(), y))) {
+        if(game.getPositions().stream().anyMatch((a) -> Objects.equals(a.getX(), request.getX()) && Objects.equals(a.getY(), request.getY()))) {
             throw new AlreadyRevealedException("This position is already revealed!");
         }
         Flag flag = new Flag();
         flag.setGame(game);
-        flag.setX(x);
-        flag.setY(y);
+        flag.setX(request.getX());
+        flag.setY(request.getY());
         return flagRepository.save(flag);
     }
 
-    public void deleteFlag(String username, Long flagId) {
+    public void deleteFlag(String username, Long gameId, Long flagId) {
+        testGameOwnership(username, gameId);
         flagRepository.deleteById(flagId);
+    }
+
+    private void testGameOwnership(String username, Long gameId) {
+        if(!gameRepository
+                .existsByIdAndPlayerId(gameId, getIdByUsername(username))) {
+            throw new AccessDeniedException("You can't view flags for this game!");
+        }
     }
 }
