@@ -29,6 +29,7 @@ export class GameComponent implements OnInit {
   }
 
   loadGame(id: number): void {
+    this.flags = [];
     this.service.getGameById(id).subscribe(
       (response: Game) => {
         this.game = response;
