@@ -80,7 +80,7 @@ class GameServiceTest {
         oneXOne.setX(1);
         oneXOne.setY(1);
 
-        List<PositionResponse> response = service.move("user1", 1L, oneXOne);
+        List<PositionResponse> response = service.move("user1", 1L, oneXOne).getPositions();
 
         for(PositionResponse p : response) {
             System.out.println(p.getX()+"x"+p.getY()+":"+p.getNumber());
@@ -101,7 +101,7 @@ class GameServiceTest {
         zeroXzero.setX(0);
         zeroXzero.setY(0);
 
-        List<PositionResponse> response = service.move("user1", 1L, zeroXzero);
+        List<PositionResponse> response = service.move("user1", 1L, zeroXzero).getPositions();
 
         for(PositionResponse p : response) {
             System.out.println(p.getX()+"x"+p.getY()+":"+p.getNumber());

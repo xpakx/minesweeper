@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -36,4 +37,6 @@ public class Game {
     @JsonIgnore
     @OneToMany(mappedBy = "game", fetch = FetchType.LAZY)
     private List<Position> positions;
+
+    private LocalDateTime completedAt;
 }

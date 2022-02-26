@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -101,6 +102,7 @@ public class GameService {
             newPosition.setNumber(REVEALED_BOMB);
             newPositions.addAll(mapBombsToPositions(move, bombs, game));
             game.setLost(true);
+            game.setCompletedAt(LocalDateTime.now());
             gameRepository.save(game);
         } else {
             newPosition.setNumber(getNumOfBombsAround(newPosition,bombs));
@@ -108,6 +110,7 @@ public class GameService {
             int uniquePosition = newPositions.size() + game.getPositions().size() + 1;
             if(uniquePosition >=  game.getWidth() *game.getHeight()-bombs.size()) {
                 game.setWon(true);
+                game.setCompletedAt(LocalDateTime.now());
                 gameRepository.save(game);
             }
         }
