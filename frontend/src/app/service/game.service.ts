@@ -7,6 +7,7 @@ import { Game } from '../entity/game';
 import { GameInfo } from '../entity/game-info';
 import { GameRequest } from '../entity/game-request';
 import { MoveRequest } from '../entity/move-request';
+import { MoveResponse } from '../entity/move-response';
 import { Position } from '../entity/position';
 
 @Injectable({
@@ -29,8 +30,8 @@ export class GameService {
     return this.http.post<Game>(`${this.apiServerUrl}/players/${username}/games`, request);
   }
 
-  public move(username: String, gameId: number, request: MoveRequest):  Observable<Position[]> {
-    return this.http.post<Position[]>(`${this.apiServerUrl}/players/${username}/games/${gameId}/moves`, request);
+  public move(username: String, gameId: number, request: MoveRequest):  Observable<MoveResponse> {
+    return this.http.post<MoveResponse>(`${this.apiServerUrl}/players/${username}/games/${gameId}/moves`, request);
   }
 
   public getFlagsByGameId(username: String, gameId: number):  Observable<Flag[]> {

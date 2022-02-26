@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Flag } from 'src/app/entity/flag';
 import { Game } from 'src/app/entity/game';
 import { MoveRequest } from 'src/app/entity/move-request';
+import { MoveResponse } from 'src/app/entity/move-response';
 import { Position } from 'src/app/entity/position';
 import { GameService } from 'src/app/service/game.service';
 
@@ -19,6 +20,9 @@ export class GameComponent implements OnInit {
   public game!: Game;
   public positions: number[][] = [];
   public flags: Flag[] = [];
+
+  public ended: boolean = false;
+  public gameMessage: string = '';
 
   constructor(private service: GameService, private router: Router, private route: ActivatedRoute) { }
 
@@ -37,6 +41,7 @@ export class GameComponent implements OnInit {
           this.loadFlags(id);
         }
         this.createBoard();
+        this.testGameEnd(response.lost, response.won);
     },
     (error: HttpErrorResponse) => {
       if(error.status === 401) {
@@ -59,8 +64,9 @@ export class GameComponent implements OnInit {
     let username: String | null = localStorage.getItem("user_id");
     if(username) {
       this.service.move(username, this.game.id, request).subscribe(
-        (response: Position[]) => {
-          this.redrawBoard(response);
+        (response: MoveResponse) => {
+          this.redrawBoard(response.positions);
+          this.testGameEnd(response.lost, response.won);
       },
       (error: HttpErrorResponse) => {
         if(error.status === 401) {
@@ -181,5 +187,16 @@ export class GameComponent implements OnInit {
       this.message = error.error.message;
       this.invalid = true;
     });
+  }
+
+  testGameEnd(lost: boolean, won: boolean): void {
+    if(won) {
+      this.ended = true;
+      this.gameMessage = "You won!";
+    }
+    if(lost) {
+      this.ended = true;
+      this.gameMessage = "You lost!";
+    }
   }
  }
