@@ -30,7 +30,7 @@ export class RankingComponent implements OnInit {
     });
   }
 
-  toPlayer(id: number): void {
-    this.router.navigate(['/players/'+id]);
+  toPlayer(username: string): void {
+    this.router.navigate(['/players/'+username]);
   }
 }

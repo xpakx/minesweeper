@@ -2,7 +2,7 @@
     <h2>Weekly ranking</h2>
     <ol>
         <li *ngFor="let player of ranking">
-            <button class="link-btn" (click)="toPlayer(player.id)">
+            <button class="link-btn" (click)="toPlayer(player.username)">
                 {{player.username}} 
                 <span class="result">
                     <span class="won">{{player.won}}</span>/<span class="lost">{{player.lost}}</span>
