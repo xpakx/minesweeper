@@ -18,7 +18,7 @@ public class RankingService {
     private final GameRepository gameRepository;
 
     public List<RankedPlayerResponse> getRanking() {
-        LocalDateTime date = LocalDateTime.now();
+        LocalDateTime date = LocalDateTime.now().minusDays(7);
         Map<Long, List<Game>> gamesGroupedByPlayer = gameRepository
                 .findByCompletedAtAfter(date).stream()
                 .collect(Collectors.groupingBy((a) -> a.getPlayer().getId()));
