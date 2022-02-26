@@ -40,7 +40,7 @@ public class GameController {
     }
 
     @PostMapping("/players/{username}/games/{gameId}/moves")
-    public ResponseEntity<List<PositionResponse>> move(@RequestBody MoveRequest request,
+    public ResponseEntity<MoveResponse> move(@RequestBody MoveRequest request,
                                                        @PathVariable String username,
                                                           @PathVariable Long gameId) {
         return new ResponseEntity<>(

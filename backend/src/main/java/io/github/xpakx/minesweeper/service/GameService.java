@@ -81,7 +81,7 @@ public class GameService {
     }
 
     @Transactional
-    public List<PositionResponse> move(String username, Long gameId, MoveRequest move) {
+    public MoveResponse move(String username, Long gameId, MoveRequest move) {
         Game game = gameRepository
                 .findByIdAndPlayerId(gameId, getIdByUsername(username))
                 .orElseThrow();
@@ -113,9 +113,15 @@ public class GameService {
         }
         newPositions.add(newPosition);
         positionRepository.saveAll(newPositions);
-        return newPositions.stream()
+        MoveResponse response = new MoveResponse();
+        response.setPositions(
+                newPositions.stream()
                 .map(PositionResponse::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())
+        );
+        response.setWon(game.isWon());
+        response.setLost(game.isLost());
+        return response;
     }
 
     private boolean isBombAtPosition(MoveRequest move, List<Bomb> bombs) {
