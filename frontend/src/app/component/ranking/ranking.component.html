@@ -1,0 +1,17 @@
+<div class="container">
+    <h2>Weekly ranking</h2>
+    <ol>
+        <li *ngFor="let player of ranking">
+            <button class="link-btn" (click)="toPlayer(player.id)">
+                {{player.username}} 
+                <span class="result">
+                    <span class="won">{{player.won}}</span>/<span class="lost">{{player.lost}}</span>
+                </span>
+            </button>
+        </li>
+    </ol>
+    
+    <div id="warning" *ngIf="invalid">
+        Error: {{message}}
+    </div>
+</div>
