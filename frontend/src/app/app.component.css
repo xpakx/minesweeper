@@ -1,9 +1,28 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 5px 20px;
+}
+
+.header {
+    background-color: #24252a;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    font-variant: small-caps;
+    color: white;
+    font-weight: 900;
+}
+
 button {
     text-align: center;
-cursor: pointer;
-white-space: nowrap;
-font-size: 14px;
-padding: 0;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 14px;
+    padding: 0;
 }
 
 .btn-icon {
