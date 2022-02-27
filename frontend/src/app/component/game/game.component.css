@@ -2,8 +2,10 @@
     display: inline-block;
     width: 25px;
     height: 25px;
-    background-color: wheat;
+    background-color: #797676;
     border: none;
+    margin: 2px;
+    border-radius: 25%;
 }
 
 .blue {
@@ -46,6 +48,21 @@
     background-color: darkred;
 }
 .unclicked {
-    background-color: beige;
-    border: 1px solid brown;
+    background-color: #434445;
+
+    box-shadow: inset 1px 1px 0px #676869,
+                inset 2px 2px 0px #676869,
+                inset 3px 3px 0px #676869;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    flex-direction: column;
+}
+
+.end-message {
+    margin-top: 20px;
+    color: white;
 }

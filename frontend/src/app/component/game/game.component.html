@@ -1,20 +1,26 @@
-<div class="row" *ngFor="let row of positions; let i = index">
-    <button class="field" *ngFor="let pos of row; let j = index" (click)="move(i,j)" (auxclick) = "flag($event, i,j)" [ngClass]="getColor(pos)">
-        <ng-container *ngIf="pos<1">
-            <ng-container *ngIf="isFlagged(i,j)">
-                F
-            </ng-container>
-            &nbsp;
-        </ng-container>
-        <ng-container *ngIf="pos>0 && pos<9">
-            {{pos}}
-        </ng-container>
-        <ng-container *ngIf="pos>8">
-            ó
-        </ng-container>
-    </button>
-</div>
+<div class="container">
+    <div class="board-container">
+        <div class="row" *ngFor="let row of positions; let i = index">
+            <button class="field" *ngFor="let pos of row; let j = index" (click)="move(i,j)" (auxclick) = "flag($event, i,j)" [ngClass]="getColor(pos)">
+                <ng-container *ngIf="pos<1">
+                    <ng-container *ngIf="isFlagged(i,j)">
+                        <i class="fa fa-flag red"></i>
+                    </ng-container>
+                    <ng-container *ngIf="!isFlagged(i,j)">
+                        &nbsp;
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="pos>0 && pos<9">
+                    {{pos}}
+                </ng-container>
+                <ng-container *ngIf="pos>8">
+                    <i class="fa fa-bomb"></i>
+                </ng-container>
+            </button>
+        </div>
+    </div>
 
-<div *ngIf="ended">
-    {{ gameMessage }}
+    <div *ngIf="ended" class="end-message">
+        {{ gameMessage }}
+    </div>
 </div>
