@@ -4,10 +4,13 @@
     </div>
 
     <button class="btn" (click)="newGame(9, 9)" *ngIf="isLogged">
-        <span class="btn-icon">+</span>
+        <span class="btn-icon">
+            <i class="fa fa-plus"></i>
+        </span>
         New Game
     </button>
     <button class="btn" (click)="toLogin()" *ngIf="!isLogged">
+        <i class="fa fa-bars btn-icon"></i>
         Sign in
     </button>
 
