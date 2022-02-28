@@ -1,12 +1,11 @@
 <div class="container">
     <h2>Games</h2>
     <ul>
-        <li *ngFor="let game of games">
-            <button class="link-btn" (click)="toGame(game.id)">
-                {{game.width}}x{{game.height}}
-            </button>
-            <span *ngIf="game.won">won</span>
-            <span *ngIf="game.lost">lost</span>
+        <li *ngFor="let game of games" (click)="toGame(game.id)">
+            Board: {{game.width}}x{{game.height}}
+            <i class="fa fa-certificate won" *ngIf="game.won"></i>
+            <i class="fa fa-ban lost" *ngIf="game.lost"></i>
+            <i class="fa fa-clock-o in-progress" *ngIf="!game.lost && !game.won"></i>
         </li>
     </ul>
     
