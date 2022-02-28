@@ -271,7 +271,15 @@ public class GameService {
     }
 
     public void deleteFlag(String username, Long gameId, Long flagId) {
-        testGameOwnership(username, gameId);
+        Game game = gameRepository
+                .findByIdAndPlayerId(gameId, getIdByUsername(username))
+                .orElseThrow(() -> new AccessDeniedException("You can't view flags for this game!"));
+        if(game.isLost()) {
+            throw new GameEndedException("Game already lost!");
+        }
+        if(game.isWon()) {
+            throw new GameEndedException("Game already won!");
+        }
         flagRepository.deleteById(flagId);
     }
 
