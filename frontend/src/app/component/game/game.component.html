@@ -1,4 +1,7 @@
 <div class="container">
+
+    <h4>{{game.player.username}}'s Game</h4>
+    <div *ngIf="myGame"><i class="fa fa-bomb"></i>{{bombs}}</div>
     <div class="board-container">
         <div class="row" *ngFor="let row of positions; let i = index">
             <button class="field" *ngFor="let pos of row; let j = index" (click)="move(i,j)" (auxclick) = "flag($event, i,j)" [ngClass]="getColor(pos)">

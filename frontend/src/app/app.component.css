@@ -15,6 +15,7 @@
     font-variant: small-caps;
     color: white;
     font-weight: 900;
+    cursor: pointer;
 }
 
 button {

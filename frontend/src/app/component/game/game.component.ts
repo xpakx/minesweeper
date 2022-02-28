@@ -32,6 +32,15 @@ export class GameComponent implements OnInit {
     });  
   }
 
+  get bombs(): number {
+    return this.game.lost || this.game.won ? 0 : 9-this.flags.length;
+  }
+
+  get myGame(): boolean {
+    let username: String | null = localStorage.getItem("user_id");
+    return username == this.game.player.username;
+  }
+
   loadGame(id: number): void {
     this.flags = [];
     this.ended = false;
@@ -193,11 +202,11 @@ export class GameComponent implements OnInit {
   testGameEnd(lost: boolean, won: boolean): void {
     if(won) {
       this.ended = true;
-      this.gameMessage = "You won!";
+      this.gameMessage = this.myGame ? "You won!" : "Game won";
     }
     if(lost) {
       this.ended = true;
-      this.gameMessage = "You lost!";
+      this.gameMessage = this.myGame ? "You lost!" : "Game lost";
     }
   }
  }

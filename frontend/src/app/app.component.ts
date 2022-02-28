@@ -43,4 +43,8 @@ export class AppComponent {
   toLogin() {
     this.router.navigate(["/login"]);
   }
+
+  toMain() {
+    this.router.navigate(["/"]);
+  }
 }

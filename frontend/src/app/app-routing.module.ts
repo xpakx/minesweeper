@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'players/:username', component: PlayerComponent },
   { path: 'games/:id', component: GameComponent },
+  { path: '', component: RankingComponent },
   { path: 'ranking', component: RankingComponent }
 ];
 
