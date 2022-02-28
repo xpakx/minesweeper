@@ -6,6 +6,8 @@ import io.github.xpakx.minesweeper.entity.Position;
 import io.github.xpakx.minesweeper.entity.dto.*;
 import io.github.xpakx.minesweeper.error.AlreadyRevealedException;
 import io.github.xpakx.minesweeper.error.GameEndedException;
+import io.github.xpakx.minesweeper.error.GamePermissionException;
+import io.github.xpakx.minesweeper.error.GameNotFoundException;
 import io.github.xpakx.minesweeper.repo.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -31,7 +33,7 @@ public class GameService {
     public GameDto getGame(Long gameId) {
         return gameRepository
                 .findProjectedById(gameId)
-                .orElseThrow();
+                .orElseThrow(() -> new GameNotFoundException("Game not found!"));
     }
 
     public List<GameInfoDto> getGamesForPlayer(String username) {
@@ -85,7 +87,7 @@ public class GameService {
     public MoveResponse move(String username, Long gameId, MoveRequest move) {
         Game game = gameRepository
                 .findByIdAndPlayerId(gameId, getIdByUsername(username))
-                .orElseThrow();
+                .orElseThrow(() -> new GamePermissionException("You can't move in other player game!"));
         if(game.isLost()) {
             throw new GameEndedException("Game already lost!");
         }
