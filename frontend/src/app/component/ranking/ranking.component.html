@@ -1,13 +1,20 @@
 <div class="container">
     <h2>Weekly ranking</h2>
     <ol>
-        <li *ngFor="let player of ranking">
-            <button class="link-btn" (click)="toPlayer(player.username)">
-                {{player.username}} 
+        <li *ngFor="let player of ranking; let i = index">
+            <div class="li-left">
+                <div class="li-number">{{i+1}}. </div>
+                <a class="link" (click)="toPlayer(player.username)">
+                    {{player.username}} 
+                </a>
+            </div>
+
+            <div class="li-right">
                 <span class="result">
                     <span class="won">{{player.won}}</span>/<span class="lost">{{player.lost}}</span>
+                    <span class="ratio">&nbsp;({{player.won/(player.won+player.lost)*100| number : '.2-2'}}%)</span>
                 </span>
-            </button>
+            </div>
         </li>
     </ol>
     
