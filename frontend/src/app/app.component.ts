@@ -20,7 +20,7 @@ export class AppComponent {
   }
 
   get isLogged(): boolean {
-    return localStorage.getItem("user_id") ? true : false;
+    return localStorage.getItem("token") ? true : false;
   }
 
   newGame(width: number, height: number) {
