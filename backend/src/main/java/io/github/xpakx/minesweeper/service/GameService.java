@@ -70,8 +70,8 @@ public class GameService {
 
     private List<Bomb> getRandomBombs(Game game, Integer bombs) {
         List<Bomb> allPositions = new ArrayList<>();
-        for(int i=0; i<game.getHeight();i++) {
-            for(int j=0; j<game.getWidth();j++) {
+        for(int i=0; i<game.getWidth();i++) {
+            for(int j=0; j<game.getHeight();j++) {
                 Bomb bomb = new Bomb();
                 bomb.setGame(game);
                 bomb.setRevealed(false);
