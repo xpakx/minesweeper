@@ -1,0 +1,14 @@
+<form class="form" [formGroup]="form">
+    <div class="form-field">
+        <label for="labelName">Board size</label>
+        <input class="number-input" id="width" formControlName="width">
+        x
+        <input class="number-input" id="height" formControlName="height">
+    </div>
+</form>
+<button class="btn" (click)="set()">
+    <span class="btn-icon">
+        <i class="fa fa-save"></i>
+    </span>
+    Save
+</button>

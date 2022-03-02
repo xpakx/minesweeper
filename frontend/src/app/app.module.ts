@@ -11,6 +11,7 @@ import { RegisterComponent } from './component/register/register.component';
 import { PlayerComponent } from './component/player/player.component';
 import { GameComponent } from './component/game/game.component';
 import { RankingComponent } from './component/ranking/ranking.component';
+import { SettingsComponent } from './component/settings/settings.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -23,7 +24,8 @@ export function tokenGetter() {
     RegisterComponent,
     PlayerComponent,
     GameComponent,
-    RankingComponent
+    RankingComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

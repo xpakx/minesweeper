@@ -3,19 +3,28 @@
         Minesweeper
     </div>
 
-    <button class="btn" (click)="newGame(9, 9)" *ngIf="isLogged">
-        <span class="btn-icon">
-            <i class="fa fa-plus"></i>
-        </span>
-        New Game
-    </button>
-    <button class="btn" (click)="toLogin()" *ngIf="!isLogged">
-        <span class="btn-icon">
-            <i class="fa fa-sign-in"></i>
-        </span>
-        Sign in
-    </button>
+    <div class="right">
+        <button class="btn" (click)="newGame()" *ngIf="isLogged">
+            <span class="btn-icon">
+                <i class="fa fa-plus"></i>
+            </span>
+            New Game
+        </button>
+        <button class="btn-small" (click)="openSettings()" *ngIf="isLogged">
+            <span class="btn-icon">
+                <i class="fa fa-cog"></i>
+            </span>
+        </button>
+        <button class="btn" (click)="toLogin()" *ngIf="!isLogged">
+            <span class="btn-icon">
+                <i class="fa fa-sign-in"></i>
+            </span>
+            Sign in
+        </button>
+    </div>
 
 </div>
 
 <router-outlet></router-outlet>
+
+<app-settings *ngIf="showSettings" (closeEvent)="closeSettings()" (saveValues)="updateSettings($event)"></app-settings>
