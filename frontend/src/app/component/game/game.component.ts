@@ -33,7 +33,7 @@ export class GameComponent implements OnInit {
   }
 
   get bombs(): number {
-    return this.game.lost || this.game.won ? 0 : 9-this.flags.length;
+    return this.game.lost || this.game.won ? 0 : this.game.bombs-this.flags.length;
   }
 
   get myGame(): boolean {

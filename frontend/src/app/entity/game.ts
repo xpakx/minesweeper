@@ -5,6 +5,7 @@ export interface Game {
     id: number;
     width: number;
     height: number;
+    bombs: number;
     won: boolean;
     lost: boolean;
     player: PlayerMin;
