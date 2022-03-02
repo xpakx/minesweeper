@@ -6,6 +6,7 @@ public interface GameDto {
     Long getId();
     Integer getWidth();
     Integer getHeight();
+    Integer getBombs();
     boolean getWon();
     boolean getLost();
     PlayerMinDto getPlayer();

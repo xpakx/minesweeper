@@ -26,6 +26,7 @@ public class Game {
 
     private Integer width;
     private Integer height;
+    private Integer bombs;
     private boolean won;
     private boolean lost;
 

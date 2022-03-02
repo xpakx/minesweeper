@@ -50,15 +50,17 @@ public class GameService {
 
     @Transactional
     public Game newGame(String username, NewGameRequest request) {
-        Game game = gameRepository.save(createGameFromRequest(getIdByUsername(username), request));
-        bombRepository.saveAll(getRandomBombs(game));
+        int bombs = (int)(Math.sqrt(request.getHeight()*request.getWidth()));
+        Game game = gameRepository.save(createGameFromRequest(getIdByUsername(username), request, bombs));
+        bombRepository.saveAll(getRandomBombs(game, bombs));
         return game;
     }
 
-    private Game createGameFromRequest(Long playerId, NewGameRequest request) {
+    private Game createGameFromRequest(Long playerId, NewGameRequest request, Integer bombs) {
         Game game = new Game();
         game.setHeight(request.getHeight());
         game.setWidth(request.getWidth());
+        game.setBombs(bombs);
         game.setLost(false);
         game.setWon(false);
         game.setPlayer(playerRepository.getById(playerId));
@@ -66,8 +68,7 @@ public class GameService {
         return game;
     }
 
-    private List<Bomb> getRandomBombs(Game game) {
-        int bombs = (int)(Math.sqrt(game.getHeight()*game.getWidth()));
+    private List<Bomb> getRandomBombs(Game game, Integer bombs) {
         List<Bomb> allPositions = new ArrayList<>();
         for(int i=0; i<game.getHeight();i++) {
             for(int j=0; j<game.getWidth();j++) {
