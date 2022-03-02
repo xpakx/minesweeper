@@ -153,9 +153,9 @@ public class GameService {
     private List<Position> propagateMove(Position move, List<Bomb> bombs, Game game) {
         List<Position> revealed = new ArrayList<>();
         if(move.getNumber()==0) {
-            boolean[][] visited = new boolean[game.getWidth()][game.getHeight()];
-            for(int i=0; i<game.getWidth();i++) {
-                for(int j=0; j<game.getHeight();j++) {
+            boolean[][] visited = new boolean[game.getHeight()][game.getWidth()];
+            for(int i=0; i<game.getHeight();i++) {
+                for(int j=0; j<game.getWidth();j++) {
                     visited[i][j] = false;
                 }
             }
@@ -167,7 +167,7 @@ public class GameService {
                 List<Position> newNextPositions = new ArrayList<>();
                 for(Position p : nextPositions) {
                     if(p.getNumber() == 0) {
-                        if (p.getX() + 1 < game.getWidth() && !visited[p.getX() + 1][p.getY()]) {
+                        if (p.getX() + 1 < game.getHeight() && !visited[p.getX() + 1][p.getY()]) {
                             newNextPositions.add(posForCoord(p.getX() + 1, p.getY(), game, bombs));
                             visited[p.getX() + 1][p.getY()] = true;
                         }
@@ -175,7 +175,7 @@ public class GameService {
                             newNextPositions.add(posForCoord(p.getX() - 1, p.getY(), game, bombs));
                             visited[p.getX() - 1][p.getY()] = true;
                         }
-                        if (p.getY() + 1 < game.getHeight() && !visited[p.getX()][p.getY() + 1]) {
+                        if (p.getY() + 1 < game.getWidth() && !visited[p.getX()][p.getY() + 1]) {
                             newNextPositions.add(posForCoord(p.getX(), p.getY() + 1, game, bombs));
                             visited[p.getX()][p.getY() + 1] = true;
                         }
@@ -183,16 +183,16 @@ public class GameService {
                             newNextPositions.add(posForCoord(p.getX(), p.getY() - 1, game, bombs));
                             visited[p.getX()][p.getY() - 1] = true;
                         }
-                        if (p.getX() + 1 < game.getWidth() && p.getY() + 1 < game.getHeight()  && !visited[p.getX() + 1][p.getY() + 1]) {
+                        if (p.getX() + 1 < game.getHeight() && p.getY() + 1 < game.getWidth()  && !visited[p.getX() + 1][p.getY() + 1]) {
                             newNextPositions.add(posForCoord(p.getX() + 1, p.getY() + 1, game, bombs));
                             visited[p.getX() + 1][p.getY() + 1] = true;
                         }
-                        if (p.getX() + 1 < game.getWidth() && p.getY() - 1 >=0  && !visited[p.getX() + 1][p.getY() - 1]) {
+                        if (p.getX() + 1 < game.getHeight() && p.getY() - 1 >=0  && !visited[p.getX() + 1][p.getY() - 1]) {
                             newNextPositions.add(posForCoord(p.getX() + 1, p.getY() - 1, game, bombs));
                             visited[p.getX() + 1][p.getY() - 1] = true;
                         }
 
-                        if (p.getX() - 1 > 0 && p.getY() + 1 < game.getHeight()  && !visited[p.getX() - 1][p.getY() + 1]) {
+                        if (p.getX() - 1 > 0 && p.getY() + 1 < game.getWidth()  && !visited[p.getX() - 1][p.getY() + 1]) {
                             newNextPositions.add(posForCoord(p.getX() - 1, p.getY() + 1, game, bombs));
                             visited[p.getX() - 1][p.getY() + 1] = true;
                         }

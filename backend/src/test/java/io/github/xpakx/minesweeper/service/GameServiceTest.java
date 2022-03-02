@@ -106,6 +106,6 @@ class GameServiceTest {
         for(PositionResponse p : response) {
             System.out.println(p.getX()+"x"+p.getY()+":"+p.getNumber());
         }
-        assertEquals(18, response.size());
+        assertEquals(16, response.size());
     }
 }
