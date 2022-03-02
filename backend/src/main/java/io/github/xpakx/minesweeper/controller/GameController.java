@@ -6,6 +6,7 @@ import io.github.xpakx.minesweeper.service.GameService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class GameController {
     }
 
     @PostMapping("/players/{username}/games")
-    public ResponseEntity<Game> newGame(@RequestBody NewGameRequest request, @PathVariable String username) {
+    public ResponseEntity<Game> newGame(@Validated @RequestBody NewGameRequest request, @PathVariable String username) {
         return new ResponseEntity<>(
                 service.newGame(username, request),
                 HttpStatus.CREATED
