@@ -6,6 +6,7 @@ import io.github.xpakx.minesweeper.service.GameService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ public class GameController {
         );
     }
 
+    @PreAuthorize("#username.equals(authentication.principal.username)")
     @GetMapping("/players/{username}/games")
     public ResponseEntity<List<GameInfoDto>> getGamesByPlayerId(@PathVariable String username) {
         return new ResponseEntity<>(
@@ -32,6 +34,7 @@ public class GameController {
         );
     }
 
+    @PreAuthorize("#username.equals(authentication.principal.username)")
     @PostMapping("/players/{username}/games")
     public ResponseEntity<Game> newGame(@Validated @RequestBody NewGameRequest request, @PathVariable String username) {
         return new ResponseEntity<>(
@@ -40,6 +43,7 @@ public class GameController {
         );
     }
 
+    @PreAuthorize("#username.equals(authentication.principal.username)")
     @PostMapping("/players/{username}/games/{gameId}/moves")
     public ResponseEntity<MoveResponse> move(@RequestBody MoveRequest request,
                                                        @PathVariable String username,
@@ -50,6 +54,7 @@ public class GameController {
         );
     }
 
+    @PreAuthorize("#username.equals(authentication.principal.username)")
     @PostMapping("/players/{username}/games/{gameId}/flags")
     public ResponseEntity<Flag> addFlag(@RequestBody MoveRequest request,
                                                        @PathVariable String username,
@@ -60,6 +65,7 @@ public class GameController {
         );
     }
 
+    @PreAuthorize("#username.equals(authentication.principal.username)")
     @GetMapping("/players/{username}/games/{gameId}/flags")
     public ResponseEntity<List<Flag>> getFlagsByGameId(@PathVariable String username,
                                                        @PathVariable Long gameId) {
@@ -69,6 +75,7 @@ public class GameController {
         );
     }
 
+    @PreAuthorize("#username.equals(authentication.principal.username)")
     @DeleteMapping("/players/{username}/games/{gameId}/flags/{flagId}")
     public ResponseEntity<?> deleteFlag(@PathVariable String username,
                                         @PathVariable Long gameId,
