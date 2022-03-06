@@ -15,6 +15,8 @@ export class AppComponent {
   title = 'minesweeper';
   size: BoardSize = {width: 9, height: 9};
   showSettings: boolean = false;
+  error: boolean = false;
+  messages: String[] = [];
   
   constructor(private service: GameService, private router: Router) { }
 
@@ -33,21 +35,29 @@ export class AppComponent {
       this.service.newGame(username, request).subscribe(
         (response: Game) => {
           this.router.navigate(['/games/'+response.id]);
+          this.error = false;
       },
       (error: HttpErrorResponse) => {
         if(error.status === 401) {
           localStorage.removeItem("token");
         }
-        //TODO
+        this.error = true;
+        if(error.status === 400) {
+          this.messages = error.error.errors.map((a: any) => a.defaultMessage);
+        } else {
+          this.messages = [error.message];
+        }
       });
     }
   }
 
   toLogin() {
+    this.error = false;
     this.router.navigate(["/login"]);
   }
 
   toMain() {
+    this.error = false;
     this.router.navigate(["/"]);
   }
 
@@ -60,6 +70,7 @@ export class AppComponent {
   }
 
   updateSettings(event: BoardSize) {
+    this.error = false;
     this.size = event;
     this.closeSettings();
   }

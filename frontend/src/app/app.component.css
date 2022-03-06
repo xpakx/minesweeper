@@ -95,3 +95,28 @@ button {
     background-color: #3bda3b;
     border-color: #61ac61;
 }
+
+.error-container {
+    display: flex;
+    justify-content: center;
+}
+
+.error-message {
+    background-color: #f3bab8;
+    border: solid 1px #c0686e;
+    color: #c54c48;
+    border-radius: 15px;
+    padding: 10px 20px;
+}
+
+.error-container ul {
+    margin: 0;
+}
+
+.error-container li {
+    margin: 0;
+}
+
+.error-header {
+    font-weight: 800;
+}

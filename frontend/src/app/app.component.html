@@ -25,6 +25,20 @@
 
 </div>
 
+<div class="error-container">
+    <div *ngIf="error" class="error-message">
+        <div class="error-header">
+            <i class="fa fa-warning"></i>
+            Error
+        </div>
+        <ul>
+            <li *ngFor="let message of messages">
+                {{ message }}
+            </li>
+        </ul>
+    </div>
+</div>
+
 <router-outlet></router-outlet>
 
 <app-settings *ngIf="showSettings" (closeEvent)="closeSettings()" (saveValues)="updateSettings($event)"></app-settings>
