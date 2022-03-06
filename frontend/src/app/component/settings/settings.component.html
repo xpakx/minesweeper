@@ -1,16 +1,25 @@
 <div class="modal-container">
-    <form class="form" [formGroup]="form">
-        <div class="form-field">
-            <label for="labelName">Board size</label>
-            <input class="number-input" id="width" formControlName="width">
-            x
-            <input class="number-input" id="height" formControlName="height">
+    <div class="modal">
+        <div class="close">
+            <button class="close_btn" (click)="close()">
+                <span class="btn-icon">
+                    <i class="fa fa-close"></i>
+                </span>
+            </button>
         </div>
-    </form>
-    <button class="btn" (click)="set()" [disabled]="form.invalid">
-        <span class="btn-icon">
-            <i class="fa fa-save"></i>
-        </span>
-        Save
-    </button>
+        <form class="form" [formGroup]="form">
+            <div class="form-field">
+                <label for="labelName">Board size</label>
+                <input class="number-input" id="width" formControlName="width">
+                x
+                <input class="number-input" id="height" formControlName="height">
+            </div>
+        </form>
+        <button class="btn" (click)="set()" [disabled]="form.invalid">
+            <span class="btn-icon">
+                <i class="fa fa-save"></i>
+            </span>
+            Save
+        </button>
+    </div>
 </div>

@@ -71,11 +71,35 @@ input {
     margin: 0 0 7px;
 }
 
-.modal-container {
+.modal {
     width: 25%;
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: rgb(121, 87, 81);
+    background-color: #797676;
     padding: 10px;
+    border-radius: 15px;
+}
+
+.close {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close_btn {
+    background-color: transparent;
+    border: none;
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.562);
 }
