@@ -66,3 +66,14 @@
     margin-top: 20px;
     color: white;
 }
+
+h4 {
+    color: white;
+}
+
+.bomb-counter {
+    background-color: rgb(189, 184, 184);
+    padding: 2px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
