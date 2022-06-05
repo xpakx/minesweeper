@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { BoardSize } from 'src/app/entity/board-size';
 
 @Component({
@@ -8,13 +8,13 @@ import { BoardSize } from 'src/app/entity/board-size';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Output() closeEvent = new EventEmitter<boolean>();
   @Output() saveValues = new EventEmitter<BoardSize>();
   @Input() size: BoardSize | undefined;
 
-  constructor(private fb: FormBuilder) { 
+  constructor(private fb: UntypedFormBuilder) { 
     this.form = this.fb.group({
       width: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
       height: ['', [Validators.required, Validators.pattern("^[0-9]*$")]]

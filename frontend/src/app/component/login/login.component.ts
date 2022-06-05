@@ -1,6 +1,6 @@
 import { Token } from '../../entity/token';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -11,11 +11,11 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   public invalid: boolean = false;
   public message: string = '';
 
-  constructor(private fb: FormBuilder, private service: AuthenticationService, 
+  constructor(private fb: UntypedFormBuilder, private service: AuthenticationService, 
     private router: Router) { 
     this.form = this.fb.group({
       username: ['', Validators.required],
