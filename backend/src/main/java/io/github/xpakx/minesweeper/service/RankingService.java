@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,12 +34,13 @@ public class RankingService {
             result.add(player);
         }
         result.sort(this::compare);
-        return result;
+        Collections.reverse(result);
+        return result.subList(0, Math.min(result.size(), 10));
     }
 
     private int compare(RankedPlayerResponse a, RankedPlayerResponse b) {
-        double playerARatio =  a.getWon() / (a.getWon() + a.getLost());
-        double playerBRatio = b.getWon() / (b.getWon() + b.getLost());
+        double playerARatio =  (double) a.getWon() / (double) (a.getWon() + a.getLost());
+        double playerBRatio = (double) b.getWon() / (double) (b.getWon() + b.getLost());
         return Double.compare(playerARatio, playerBRatio);
     }
 }
