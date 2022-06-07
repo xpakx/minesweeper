@@ -25,7 +25,6 @@ public class GameController {
         );
     }
 
-    @PreAuthorize("#username.equals(authentication.principal.username)")
     @GetMapping("/players/{username}/games")
     public ResponseEntity<List<GameInfoDto>> getGamesByPlayerId(@PathVariable String username) {
         return new ResponseEntity<>(
